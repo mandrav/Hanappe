@@ -145,6 +145,9 @@ function M:isSelected()
     return self._selected
 end
 
+-- synonym
+M.isButtonDown = M.isSelected
+
 --------------------------------------------------------------------------------
 -- Set skin whether you can resize.
 --------------------------------------------------------------------------------
@@ -213,12 +216,14 @@ function M:touchUpHandler(e)
     end
     e:stop()
     
-    if self._touching and not self:isToggle() then
+    if self._touching then
         self._touching = false
         self._touchIndex = nil
         
-        self:doUpButton()
-        self:dispatchEvent(M.EVENT_CLICK)
+        if not self:isToggle() then
+            self:doUpButton()
+            self:dispatchEvent(M.EVENT_CLICK)
+        end
     end
 end
 
